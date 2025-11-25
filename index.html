@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>JAY BHAVANI MOTORS — Buy & Sell Cars</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">JBM</div>
+      <div class="brand-text">
+        <div class="name">JAY BHAVANI MOTORS</div>
+        <div class="tag">Buy & Sell Cars — Local Listings</div>
+      </div>
+    </div>
+
+    <div class="searchbar">
+      <input id="globalSearch" type="search" placeholder="Search cars, models, city..." />
+      <select id="categorySelect" aria-label="Category">
+        <option value="all">All categories</option>
+        <option value="cars">Cars</option>
+        <option value="bikes">Bikes</option>
+        <option value="commercial">Commercial</option>
+      </select>
+      <button id="searchBtn" class="btn">Search</button>
+      <button id="postAdBtn" class="btn primary">Post an Ad</button>
+    </div>
+  </header>
+
+  <nav class="toolbar">
+    <div class="chips" id="categoryChips">
+      <button class="chip active" data-cat="all">All</button>
+      <button class="chip" data-cat="sedan">Sedan</button>
+      <button class="chip" data-cat="suv">SUV</button>
+      <button class="chip" data-cat="hatchback">Hatchback</button>
+      <button class="chip" data-cat="electric">Electric</button>
+      <button class="chip" data-cat="luxury">Luxury</button>
+    </div>
+
+    <div class="filters">
+      <input id="filterCity" placeholder="City" />
+      <input id="filterMinPrice" type="number" placeholder="Min price" />
+      <input id="filterMaxPrice" type="number" placeholder="Max price" />
+      <select id="sortBy">
+        <option value="newest">Newest</option>
+        <option value="priceDesc">Price: High → Low</option>
+        <option value="priceAsc">Price: Low → High</option>
+      </select>
+      <button id="applyFilters" class="btn">Apply</button>
+      <button id="clearFilters" class="btn link">Clear</button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <aside class="left-col">
+      <div class="panel">
+        <h4>Categories</h4>
+        <ul class="category-list" id="leftCategories">
+          <li data-cat="cars">Cars</li>
+          <li data-cat="bikes">Bikes</li>
+          <li data-cat="commercial">Commercial Vehicles</li>
+          <li data-cat="spare">Spare Parts</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h4>Quick filters</h4>
+        <label>Year From <input id="yearFrom" type="number" /></label>
+        <label>Year To <input id="yearTo" type="number" /></label>
+        <label>Mileage Max <input id="mileageMax" type="number" /></label>
+      </div>
+    </aside>
+
+    <section class="content">
+      <div id="listingsCount" class="muted">0 results</div>
+      <div id="listingsGrid" class="cards-grid"></div>
+      <div id="noResults" class="muted" style="display:none">No listings found.</div>
+    </section>
+  </main>
+
+  <!-- Add/Edit listing page (drawer) -->
+  <div id="addPage" class="drawer" aria-hidden="true">
+    <div class="drawer-header">
+      <button id="backToHome" class="btn link">← Back</button>
+      <h2>Post an Ad — Cars</h2>
+    </div>
+
+    <form id="adForm" class="ad-form" novalidate>
+      <section class="panel photos-panel">
+        <div class="panel-head"><strong>Photos</strong></div>
+        <div class="panel-body">
+          <div id="dropZone" class="drop-zone"> 
+            <div id="coverPreview" class="cover-box"><div class="cover-text">Cover</div></div>
+            <div class="drop-actions">
+              <button id="addPhotosBtn" type="button" class="btn">Add photos</button>
+              <div class="muted small">Drag & drop or click • Max 20</div>
+            </div>
+            <input id="imageFiles" type="file" accept="image/*" multiple style="display:none" />
+          </div>
+          <div id="thumbs" class="thumbs-grid"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><strong>Key Information</strong></div>
+        <div class="panel-body form-grid">
+          <label>Make* <input id="make" required /></label>
+          <label>Model* <input id="model" required /></label>
+          <label>Variant <input id="variant" /></label>
+          <label>Year* <input id="yearInput" type="number" required /></label>
+          <label>KM Driven* <input id="km" type="number" required /></label>
+          <label>Price* <input id="price" type="number" required /></label>
+          <label>Fuel <select id="fuel"><option>Petrol</option><option>Diesel</option><option>Electric</option></select></label>
+          <label>Transmission <select id="transmission"><option>Automatic</option><option>Manual</option></select></label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><strong>Seller & Location</strong></div>
+        <div class="panel-body form-grid">
+          <label>Seller name* <input id="sellerName" required /></label>
+          <label>Phone* <input id="sellerPhone" required /></label>
+          <label>City <input id="city" /></label>
+          <label>Locality <input id="locality" /></label>
+          <label>Show phone? <select id="showContact"><option>Yes</option><option>No</option></select></label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><strong>Description</strong></div>
+        <div class="panel-body">
+          <textarea id="desc" maxlength="1500" placeholder="Write a clear description..."></textarea>
+          <div class="desc-row"><div id="descCount">0/1500</div></div>
+        </div>
+      </section>
+
+      <div class="actions-row">
+        <button id="saveDraftBtn" class="btn">Save draft</button>
+        <button id="previewBtn" class="btn">Preview</button>
+        <button id="publishBtn" class="btn primary">Publish</button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Listing preview / detail modal -->
+  <div id="detailModal" class="modal" aria-hidden="true">
+    <div class="modal-dialog">
+      <button id="closeDetail" class="modal-close">✕</button>
+      <div id="detailContent"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
